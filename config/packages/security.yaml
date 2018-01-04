@@ -1,0 +1,53 @@
+#security:
+#    # https://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
+#    providers:
+#        in_memory: { memory: ~ }
+#    firewalls:
+#        dev:
+#            pattern: ^/(_(profiler|wdt)|css|images|js)/
+#            security: false
+#        main:
+#            anonymous: ~
+#
+#            # activate different ways to authenticate
+#
+#            # http_basic: ~
+#            # https://symfony.com/doc/current/book/security.html#a-configuring-how-your-users-will-authenticate
+#
+#            # form_login: ~
+#            # https://symfony.com/doc/current/cookbook/security/form_login_setup.html
+security:
+    encoders:
+        App\Entity\Usuario:
+            algorithm: bcrypt
+
+    providers:
+        doctrine_provider:
+            entity:
+                class: App\Entity\Usuario
+                property: login
+
+    firewalls:
+        dev:
+            pattern:  ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        portada:
+            pattern: ^/$
+            anonymous: ~
+
+        backend:
+            provider: doctrine_provider
+            pattern: ^/
+            form_login:
+                login_path: portada
+                check_path: /login_check
+                default_target_path: usuario_info
+                always_use_default_target_path: true
+            logout:
+                path: /logout
+                target: portada
+
+    access_control:
+        - { path: ^/usuario/new, roles: ROLE_ADMIN }
+        - { path: ^/admin, roles: ROLE_ADMIN }

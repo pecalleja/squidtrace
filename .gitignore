@@ -1,4 +1,6 @@
 .idea/
+access.log/*
+squidtrace.sql
 
 # Backup entities generated with doctrine:generate:entities command
 **/Entity/*~
