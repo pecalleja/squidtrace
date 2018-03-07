@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% include 'usuario/user-nav.html.twig' %}
+
+    {% if is_granted('ROLE_ADMIN') %}
+        {% include 'usuario/admin-nav.html.twig' %}
+    {% endif %}
+
+    <div class="row">
+        {% block datos_usuario %}
+            <div class="col-sm-7">
+                {% include 'usuario/user-data.html.twig' %}
+            </div>
+        {% endblock %}
+        {% block cambia_password %}
+            <div class="col-sm-5">
+                {% include 'usuario/cambia-pass.html.twig' %}
+            </div>
+        {% endblock %}
+    </div>
+{% endblock %}

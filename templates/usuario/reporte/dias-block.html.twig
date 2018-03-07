@@ -1,0 +1,25 @@
+<div class="row">
+    <div class="col-sm-12">
+        <div class="panel panel-default">
+            <table class="table table-condensed table-hoveri">
+                <tbody>
+                <tr class="table-he">
+                    <th>Día</th>
+                    <th>Consumo</th>
+                </tr>
+                {% for item in dias %}
+                    {% set dia = item.fecha | date("j") %}
+                    <tr {% if filtros['dia'] is defined and filtros["dia"] == dia %}class="marcado"{% endif %}>
+                        <td><a title="Filtrar por dia" href="{{ path('dia',{'login': usuario.login, 'filter': dia}) }}">{{ item.fecha | date("w") | day_nombre }} {{ dia }}</a></td>
+                        <td>{{ item.carga | cant_bit }} {{ item.carga | unidad_bit }}</td>
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <td>Total</td>
+                    <td><strong>{{ acumulado | cant_bit }} {{ acumulado | unidad_bit }}</strong></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

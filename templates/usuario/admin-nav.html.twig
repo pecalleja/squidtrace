@@ -1,0 +1,21 @@
+{% if is_granted('ROLE_ADMIN') %}
+    <nav class="navbar navbar-default panel-info navi">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navi2">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <span class="navbar-brand">Administracion</span>
+        </div>
+
+        <div class="collapse navbar-collapse navi2">
+            <ul class="nav navbar-nav">
+                <li class="nav-pills {{ 'user_admin' | nav_active }}"><a href="{{ path('admin_usuario_index') }}">Usuarios</a></li>
+                <li class="nav-pills {{ 'report_admin' | nav_active }}"><a href="#">Reportes</a></li>
+                <li class="nav-pills {{ 'rtime_admin' | nav_active }}"><a href="#">Tiempo Real</a></li>
+            </ul>
+        </div>
+    </nav>
+{% endif %}

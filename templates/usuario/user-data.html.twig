@@ -1,0 +1,93 @@
+{{ form_start(form_user,{'attr': {'class':'form-horizontal'}}) }}
+<fieldset>
+    <legend>Información Personal</legend>
+    <div class="form-group">
+        <div class="bg-danger">{{ form_errors(form_user.login) }}</div>
+        {{ form_label(form_user.login, 'Usuario:', {'label_attr': {'class':'col-sm-4 control-label'}}) }}
+        <div class="col-sm-8">
+            {{ form_widget(form_user.login, {'attr': {'class':'form-control'}}) }}
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="bg-danger">{{ form_errors(form_user.nombre) }}</div>
+        {{ form_label(form_user.nombre, 'Nombre y Apellidos:', {'label_attr': {'class':'col-sm-4 control-label'}}) }}
+        <div class="col-sm-8">
+            {{ form_widget(form_user.nombre, {'attr': {'class':'form-control'}}) }}
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="bg-danger">{{ form_errors(form_user.correo) }}</div>
+        {{ form_label(form_user.correo, 'Correo:', {'label_attr': {'class':'col-sm-4 control-label'}}) }}
+        <div class="col-sm-8">
+            {{ form_widget(form_user.correo, {'attr': {'class':'form-control'}}) }}
+        </div>
+    </div>
+</fieldset>
+<div class="form-group">
+    <div class="col-sm-10 col-sm-offset-3">
+        {{ form_widget(form_user.save, {'attr': {'class':'btn btn-default'}}) }}
+    </div>
+</div>
+{{ form_end(form_user) }}
+
+{{ form_start(form_asig,{'attr': {'class':'form-horizontal'}}) }}
+<fieldset>
+    <legend>Datos asignados</legend>
+
+    <div class="form-group">
+        <div class="bg-danger">{{ form_errors(form_asig.kuota) }}</div>
+        {{ form_label(form_asig.kuota, 'Kuota:', {'label_attr': {'class':'col-sm-4 control-label'}}) }}
+        <div class="col-sm-8">
+            <div class="input-group">
+                <div class="row">
+                    <div class="col-xs-6">
+                        {{ form_widget(form_asig.kuota.value, {'attr': {'class':'form-control'}}) }}
+                    </div>
+                    <div class="col-xs-6">
+                        {{ form_widget(form_asig.kuota.unit, {'attr': {'class':'form-control'}}) }}
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="bg-danger">{{ form_errors(form_asig.grupo) }}</div>
+        {{ form_label(form_asig.grupo, 'Grupo:', {'label_attr': {'class':'col-sm-4 control-label'}}) }}
+        <div class="col-sm-5">
+            {{ form_widget(form_asig.grupo, {'attr': {'class':'form-control'}}) }}
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="bg-danger">{{ form_errors(form_asig.expira) }}</div>
+        {{ form_label(form_asig.expira, 'Expira:', {'label_attr': {'class':'col-sm-4 control-label'}}) }}
+
+        <div class="col-sm-5">
+            <div class="input-group">
+                {{ form_widget(form_asig.expira, {'attr': {'class':'form-control'}}) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="bg-danger">{{ form_errors(form_asig.rol) }}</div>
+        {{ form_label(form_asig.rol, 'Permisos:', {'label_attr': {'class':'col-sm-4 control-label'}}) }}
+        <div class="col-sm-5">
+            {{ form_widget(form_asig.rol, {'attr': {'class':'form-control'}}) }}
+        </div>
+    </div>
+
+</fieldset>
+
+<div class="form-group">
+    <div class="col-sm-10 col-sm-offset-3">
+        {{ form_widget(form_asig.save, {'attr': {'class':'btn btn-default'}}) }}
+    </div>
+</div>
+
+{{ form_end(form_asig) }}

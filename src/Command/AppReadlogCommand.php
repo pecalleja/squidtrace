@@ -113,7 +113,13 @@ class AppReadlogCommand extends Command
             $registro_repo->setRegistro($timestamp, $size);
             $io->success("Timestamp and size: $size saved in database");
         }
+        /*
+        $io->section("section 2");
+        $io->block(array("comentario1", "comentario2"));
 
+        $io->title("titulo");
+        $io->note("Hola esto es una nota");
+        */
         return 0;
 
     }

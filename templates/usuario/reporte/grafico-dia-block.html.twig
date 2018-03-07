@@ -1,0 +1,76 @@
+<script type="text/javascript">
+    /**
+     * Created by pecalleja on 3/1/2016.
+     */
+    (jQuery)(function () {
+        (jQuery)('#container-grafico').highcharts({
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Usuario: {{ usuario.login }}'
+            },
+            subtitle: {
+                text: 'En el dia {{ filtros['dia'] }} de {{ filtros["mes_mostrar"] }} acumula: {{ acumulado | cant_bit }} {{ acumulado | unidad_bit }}'
+            },
+            xAxis: {
+                tickInterval: 1,
+                categories: {{ range(0,23)|json_encode|raw }},
+                title: {
+                    text: 'Horas del dia'
+                }
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'MBytes'
+                },
+                plotLines: [
+                    {
+                        color: 'orange',
+                        value: {{ promedio | megas }}, // Insert your average here
+                        width: '1',
+                        zIndex: 2, // To not get stuck below the regular plot lines
+                    },
+                    {
+                        color: 'red',
+                        value: {{ maximo | megas }}, // Insert your average here
+                        width: '1',
+                        zIndex: 2, // To not get stuck below the regular plot lines
+                    }
+
+                ]
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}:00 horas de {{ filtros['dia'] }} {{ filtros["mes_mostrar"] }}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">Carga: </td>' +
+                '<td style="padding:0"><b>{point.y:.2f} MB</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    grouping: false,
+                    shadow: false,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: "Carga por hora",
+                color: 'green',
+                data: {{ data|json_encode|raw }}
+
+            }, {
+                name: 'Maximo: {{ maximo | cant_bit }} {{ maximo | unidad_bit }}',
+                color: 'red',
+                enabled: false
+            }, {
+                name: 'Promedio: {{ promedio | cant_bit }} {{ promedio | unidad_bit }}',
+                color: 'orange',
+                enabled: false
+            }]
+        });
+    });
+</script>
+<div id="container-grafico"></div>

@@ -1,0 +1,27 @@
+<div class="row">
+    <div class="col-sm-12">
+        <div class="panel panel-default">
+            <table class="table table-condensed table-hoveri">
+                <tbody>
+                <tr class="table-he">
+                    <th>Hora</th>
+                    <th>Consumo</th>
+                </tr>
+                {% set total = 0 %}
+                {% for item in horas %}
+                    {% set hora = item.hora %}
+                    {% set total = total + item.carga %}
+                    <tr {% if filtros['hora'] is defined and filtros["hora"] == hora %}class="marcado"{% endif %}>
+                        <td><a title="Filtrar por hora" href="{{ path('hora',{'login': usuario.login, 'filter': hora}) }}">{{ item.hora }}</a></td>
+                        <td>{{ item.carga | cant_bit }} {{ item.carga | unidad_bit }}</td>
+                    </tr>
+                {% endfor %}
+                    <tr>
+                        <td>Total</td>
+                        <td><strong>{{ total | cant_bit }} {{ total | unidad_bit }}</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

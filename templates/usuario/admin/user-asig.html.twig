@@ -1,0 +1,44 @@
+<fieldset {% if is_granted('ROLE_USER') %}disabled{% endif %}>
+<legend>Datos asignados</legend>
+    <div class="form-group">
+        {{ form_label(form.kuota, "Kuota:", {
+            'label_attr': {'class': 'col-sm-4 control-label'}}) }}
+        {{ form_errors(form.kuota) }}
+        <div class="col-sm-5">
+            <div class="input-group">
+                {{ form_widget(form.kuota,{'attr': {'class': 'form-control'}}) }}
+                <span class="input-group-addon">{% if usuario is defined %}{{ usuario.kuota | unidad_bit }}{% endif %}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.grupo, "Grupo:", {
+            'label_attr': {'class': 'col-sm-4 control-label'}}) }}
+        {{ form_errors(form.grupo) }}
+        <div class="col-sm-5">
+            {{ form_widget(form.grupo,{'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.expira, "Expira:", {
+            'label_attr': {'class': 'col-sm-4 control-label'}}) }}
+        {{ form_errors(form.expira) }}
+        <div class="col-sm-5">
+            <div class="input-group">
+                {{ form_widget(form.expira,{'attr': {'class': 'form-control js-datepicker'}}) }}
+                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.rol, "Permisos:", {
+            'label_attr': {'class': 'col-sm-4 control-label'}}) }}
+        {{ form_errors(form.rol) }}
+        <div class="col-sm-5">
+            {{ form_widget(form.rol,{'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+</fieldset>

@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -20,7 +21,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     message="Ya existe un usuario registrado con este nombre"
  * )
  */
-class Usuario implements UserInterface, \Serializable
+class Usuario implements UserInterface, \Serializable, EquatableInterface
 {
     /**
      * @var integer
@@ -198,7 +199,7 @@ class Usuario implements UserInterface, \Serializable
     {
         return serialize(array(
             $this->id,
-            $this->nombre,
+            $this->login,
             $this->password,
             $this->isActive
             // see section on salt below
@@ -211,7 +212,7 @@ class Usuario implements UserInterface, \Serializable
     {
         list (
             $this->id,
-            $this->nombre,
+            $this->login,
             $this->password,
             $this->isActive
             // see section on salt below
@@ -498,5 +499,22 @@ class Usuario implements UserInterface, \Serializable
     public function getUsername()
     {
         return $this->login;
+    }
+
+    public function isEqualTo(UserInterface $user)
+    {
+        if ($this->password !== $user->getPassword()) {
+            return false;
+        }
+        /*
+        if ($this->salt !== $user->getSalt()) {
+            return false;
+        }
+        */
+        if ($this->login !== $user->getUsername()) {
+            return false;
+        }
+
+        return true;
     }
 }

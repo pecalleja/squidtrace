@@ -1,0 +1,29 @@
+<div class="row">
+    <div class="col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">Contenidos descargados del sitio: <a href="http://{{ mime_url }}">{{ mime_url }}</a> {% if filtros['dia'] is defined and filtros['dia'] != null %}el {{ filtros['dia'] }} de{% else %}en{% endif %} {{ filtros['mes']|mes_nombre }} de {{ filtros['anno'] }}.{% if filtros['hora'] is defined and filtros['hora'] != null %} Intervalo de tiempo: {{ filtros['hora'] }}:00 - {{ filtros['hora'] }}:59 horas .{% endif %} {% if filtros['ip'] is defined and filtros['ip'] != null %} Filtrado por IP.{% endif %}</div>
+            <table class="table table-bordered table-condensed table-striped table-hoveri">
+                <thead>
+                <tr>
+                    <th>Contenido</th>
+                    <th>Carga</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% set total = 0 %}
+                {% for item in mimes %}
+                    {% set total = total + item.carga %}
+                    <tr>
+                        <td>{{ item.mime }}</td>
+                        <td>{{ item.carga | cant_bit }} {{ item.carga | unidad_bit }} </td>
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <td>Total</td>
+                    <td><strong>{{ total | cant_bit }} {{ total | unidad_bit }}</strong></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

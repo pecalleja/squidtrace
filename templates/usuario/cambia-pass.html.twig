@@ -1,0 +1,36 @@
+{{ form_start(form_pass,{'attr': {'class':'form-horizontal'}}) }}
+<fieldset>
+    <legend>Cambio de contraseña</legend>
+    {% if is_granted('ROLE_USER') %}
+        <div class="form-group">
+            <div class="bg-danger">{{ form_errors(form_pass.actualPassword) }}</div>
+            {{ form_label(form_pass.actualPassword, 'Contraseña Actual:', {'label_attr': {'class':'col-sm-6 control-label'}}) }}
+            <div class="col-sm-6">
+                {{ form_widget(form_pass.actualPassword, {'attr': {'class':'form-control'}}) }}
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="form-group">
+        <div class="bg-danger">{{ form_errors(form_pass.plainPassword['first']) }}</div>
+        {{ form_label(form_pass.plainPassword['first'], 'Nueva Contraseña:', {'label_attr': {'class':'col-sm-6 control-label'}}) }}
+        <div class="col-sm-6">
+            {{ form_widget(form_pass.plainPassword['first'], {'attr': {'class':'form-control'}}) }}
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="bg-danger">{{ form_errors(form_pass.plainPassword['second']) }}</div>
+        {{ form_label(form_pass.plainPassword['second'], 'Repetir Nueva Contraseña:', {'label_attr': {'class':'col-sm-6 control-label'}}) }}
+        <div class="col-sm-6">
+            {{ form_widget(form_pass.plainPassword['second'], {'attr': {'class':'form-control'}}) }}
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-12">
+            {{ form_widget(form_pass.cambiar, {'attr': {'class':'col-sm-offset-6 btn btn-default pull-right'}}) }}
+        </div>
+    </div>
+    {{ form_rest(form_pass) }}
+</fieldset>
+{{ form_end(form_pass) }}

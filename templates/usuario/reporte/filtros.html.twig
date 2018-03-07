@@ -1,0 +1,20 @@
+<div class="row">
+    <div class="col-sm-12 clearfix margin_top">
+        <div class="panel panel-default">
+            <div class="panel-heading">Filtros activos:
+                {% if filtros['dia'] is defined %}
+                    <a title="Eliminar filtro por dia" href="{{ path('delete-filter',{'login': usuario.login, 'filter': 'dia'}) }}" type="button" class="btn btn-primary ">dia: {{ filtros['anno'] }}-{{ filtros['mes'] }}-{{ filtros['dia'] }}  <span aria-hidden="true">&times;</span></a>
+                {% endif %}
+                {% if filtros['hora'] is defined %}
+                    <a title="Eliminar filtro por hora" href="{{ path('delete-filter',{'login': usuario.login, 'filter': 'hora'}) }}" type="button" class="btn btn-primary ">hora: {{ filtros['hora'] }}:00 a {{ filtros['hora'] }}:59  <span aria-hidden="true">&times;</span></a>
+                {% endif %}
+                {% if filtros['ip'] is defined %}
+                    <a title="Eliminar filtro por direccion ip" href="{{ path('delete-filter',{'login': usuario.login, 'filter': 'ip'}) }}" type="button" class="btn btn-primary ">ip: {{ ip_listado[filtros['ip']] }}  <span aria-hidden="true">&times;</span></a>
+                {% endif %}
+                {% if filtros['url'] is defined %}
+                    <a title="Eliminar filtro por url" href="{{ path('delete-filter',{'login': usuario.login, 'filter': 'url'}) }}" type="button" class="btn btn-primary ">url: {{ filtros['url'] }}  <span aria-hidden="true">&times;</span></a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>

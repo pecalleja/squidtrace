@@ -1,0 +1,37 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+    {% include '@App/usuario/user-nav.html.twig' %}
+
+    {% if is_granted('ROLE_ADMIN') %}
+        {% include '@App/usuario/admin-nav.html.twig' %}
+    {% endif %}
+
+    <div class="row">
+        <div class="col-sm-7">
+            {{ form_start(form,{'attr': {'class': 'form-horizontal'}}) }}
+                {% include '@App/usuario/admin/user-data.html.twig' %}
+                {% include '@App/usuario/admin/user-asig.html.twig' %}
+
+                <div class="form-group">
+                    <div class="col-sm-10 col-sm-offset-3">
+                        {{ form_row(form.save, {'label': 'Salvar','attr': {'class': 'btn btn-default'}}) }}
+                    </div>
+                </div>
+                <ul>
+                    <li>
+                        <a href="{{ path('admin_usuario_index') }}">Back to the list</a>
+                    </li>
+                </ul>
+            {{ form_end(form) }}
+
+        </div>
+        {% if is_granted('ROLE_USER') %}
+            {{ form_start(form,{'attr': {'class': 'form-horizontal'}}) }}
+                <div class="col-sm-5">
+                    {% include '@App/usuario/admin/cambia-pass.html.twig' %}
+                </div>
+            {{ form_end(form) }}
+        {% endif %}
+    </div>
+{% endblock %}

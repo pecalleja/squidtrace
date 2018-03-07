@@ -1,0 +1,123 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('css/datatables/dataTables.bootstrap.css') }}" rel="stylesheet" media="screen">
+{% endblock %}
+
+{% block body %}
+
+    {% include 'usuario/user-nav.html.twig' %}
+
+    {% if is_granted('ROLE_ADMIN') %}
+        {% include 'usuario/admin-nav.html.twig' %}
+    {% endif %}
+
+    {% if usuario.kuota != 0 %}
+        {% set percent =  ((usuario.consumo * 100)/usuario.kuota) | porciento %}
+    {% endif %}
+
+    {% include 'usuario/reporte/reporte-nav.html.twig' %}
+
+    {% set acumulado = 0 %}
+    {% set maximo = 0 %}
+    {% set data = {} %}
+    {% if filtros['dia'] is defined %}
+        {% for i in 0..23 %}
+            {% if i in horas|horas_key %}
+                {% set data = data|merge([ horas|horas_value(i)|megas ]) %}
+            {% else %}
+                {% set data = data|merge([ 0 ]) %}
+            {% endif %}
+        {% endfor %}
+        {% for item in horas %}
+            {% set acumulado = acumulado + item.carga %}
+            {% if item.carga > maximo %}
+                {% set maximo = item.carga %}
+            {% endif %}
+        {% endfor %}
+        {% set promedio = acumulado/24 %}
+    {% else %}
+        {% for i in 1..cant_dias %}
+            {% if i in dias|dias_key %}
+                {% set data = data|merge([ dias|dias_value(i)|megas ]) %}
+            {% else %}
+                {% set data = data|merge([ 0 ]) %}
+            {% endif %}
+        {% endfor %}
+        {% for item in dias %}
+            {% set acumulado = acumulado + item.carga %}
+            {% if item.carga > maximo %}
+                {% set maximo = item.carga %}
+            {% endif %}
+        {% endfor %}
+        {% set promedio = acumulado/cant_dias %}
+    {% endif %}
+
+    <div class="row">
+        {% if meses is not empty %}
+            {% if dias is not empty %}
+                <div class="col-sm-3 col-sm-push-9">
+                    {% include 'usuario/reporte/dias-block.html.twig' %}
+                    {% if horas is not empty and filtros['dia'] != null %}
+                        {% include 'usuario/reporte/horas-block.html.twig' %}
+                    {% endif %}
+                </div>
+            {% else %}
+                <div class="col-sm-3 col-sm-push-9"></div>
+            {% endif %}
+            <div class="col-sm-9 col-sm-pull-3">
+                {% set filtro_activo = false %}
+                {% for item in filtros_opcionales %}
+                    {% if filtros[item] is defined %}
+                        {% set filtro_activo = true %}
+                    {% endif %}
+                {% endfor %}
+                {% if filtro_activo == true %}
+                    {% include 'usuario/reporte/filtros.html.twig' %}
+                {% endif %}
+                {% if filtros['dia'] is defined %}
+                    {% include 'usuario/reporte/grafico-dia-block.html.twig' %}
+                {% else %}
+                    {% include 'usuario/reporte/grafico-mes-block.html.twig' %}
+                {% endif %}
+                {% include 'usuario/reporte/lista-block.html.twig' %}
+                {% if filtros['url'] is defined %}
+                    {% include 'usuario/reporte/mime-block.html.twig' %}
+                {% endif %}
+            </div>
+        {% else %}
+            <div class="col-sm-12">
+                No hay registros de navegacion
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/highcharts/highcharts.js') }}"></script>
+    <script src="{{ asset('js/highcharts/modules/exporting.js') }}"></script>
+    <script src="{{ asset('js/datatables/datatables.min.js') }}"></script>
+    <script src="{{ asset('js/datatables/dataTables.bootstrap.min.js') }}"></script>
+    <script src="{{ asset('js/datatables/file-size.js') }}"></script>
+    {% if registros is not empty %}
+        <script type="text/javascript">
+            (jQuery)(document).ready(function () {
+                (jQuery)('#listado').DataTable({
+                            columnDefs: [
+                                {type: 'file-size', targets: 3}
+                            ]
+                        }
+                );
+            });
+        </script>
+    {% endif %}
+    <script type="text/javascript">
+        (jQuery)(document).ready(function () {
+            (jQuery)('#meses_lista').click(function () {
+                (jQuery)('#meses_lista').addClass('open');
+            });
+        });
+    </script>
+{% endblock %}

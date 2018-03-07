@@ -1,0 +1,27 @@
+<nav class="navbar navbar-default panel-success navi">
+    <div class="navbar-header navbari-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navi1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <p class="navbar-text"><strong>Bienvenido: </strong>{{ app.user.login }}</p>
+		{% if app.user.kuota != 0 %}
+		{% set percent =  ((app.user.consumo * 100)/app.user.kuota) | porciento %}
+        <div class="progress bar-text clearfix">
+            <div title="{{ percent }}% de uso actualmente" class="progress-bar progress-bar-{{ percent | label }}" style="width: {% if percent > 0 and percent <= 100 %}{{percent}}{% else %}100{% endif %}%;">
+                {{ percent }}%
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="collapse navbar-collapse navi1">
+        <ul class="nav navbar-nav navbar-right">
+            <li class="nav-pills {{ 'usuario' | nav_active }}"><a href="{{ path('usuario',{'login': app.user.login}) }}">Datos del usuario</a></li>
+            <li class="nav-pills {{ 'reporte' | nav_active }}"><a href="{{ path('anno-mes',{'login': app.user.login, 'anno':"now"|date('Y'), 'mes':"now"|date('n')}) }}">Reportes</a></li>
+            <li class="nav-pills"><a href="{{ path('logout') }}">Salir</a></li>
+        </ul>
+    </div>
+</nav>

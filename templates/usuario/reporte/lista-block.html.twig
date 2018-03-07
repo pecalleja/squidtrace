@@ -1,0 +1,52 @@
+<div class="row">
+    <div class="col-sm-12 clearfix margin_top">
+        <div class="panel panel-default table-responsive">
+            <div class="panel-heading">Sitios visitados {% if filtros['dia'] is defined %}el {{ filtros['dia'] }} de{% else %}en{% endif %} {{ filtros['mes']|mes_nombre }} de {{ filtros['anno'] }}.{% if filtros['hora'] is defined %} Intervalo de tiempo: {{ filtros['hora'] }}:00 - {{ filtros['hora'] }}:59 horas.{% endif %}{% if filtros['ip'] is defined %} Filtrado por IP.{% endif %}</div>
+            <table id="listado" class="table table-bordered table-condensed table-striped table-hoveri">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th class="col-sm-9">Sitios visitados ( Total: {{ registros|length }} )</th>
+                    <th>Accesos</th>
+                    <th>Carga</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if registros is not empty %}
+                    {% set total = 0 %}
+                    {% for item in registros %}
+                        {% set total = total + item.carga %}
+                        <tr>
+                            <td {% if filtros['url'] is defined and item.url == filtros['url'] %}style="background-color: #faffc1;"{% endif %} class="text-center">{{ loop.index }}</td>
+                            <td {% if filtros['url'] is defined and item.url == filtros['url'] %}style="background-color: #faffc1;"{% endif %}><a title="Ver contenidos descargados desde este sitio" href="{{ path('url',{'login': usuario.login, 'filter': item.url}) }}"><span class="glyphicon glyphicon-th-list"></span></a> <a href="http://{{ item.url }}">{{ item.url }}</a></td>
+                            <td {% if filtros['url'] is defined and item.url == filtros['url'] %}style="background-color: #faffc1;"{% endif %}>{{ item.visitas }}</td>
+                            <td {% if filtros['url'] is defined and item.url == filtros['url'] %}style="background-color: #faffc1;"{% endif %}>{{ item.carga | cant_bit }} {{ item.carga | unidad_bit }}</td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="4">
+                            No hay registros de navegacion
+                        </td>
+                    </tr>
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+        {% if registros is not empty %}
+            <div class="row">
+                <div class="col-sm-12 margin_ok">
+                    {% if direcciones is not empty %}
+                    <p><strong>Desde IP: </strong>
+                        {% for item in direcciones %}
+                            {% set ip = item.ip %}
+                            {% if not loop.first %}, {% endif %}<a title="Filtrar por ip" {% if filtros['ip'] is defined and item.id == filtros['ip'] %}class="marcado"{% endif %} href="{{ path('ip',{'login': usuario.login, 'filter': item.id}) }}">{{ ip }}</a>
+                        {% endfor %}
+                    </p>
+                    {% endif %}
+                    <p><strong>Carga total: </strong> {{ total | cant_bit }} {{ total | unidad_bit }} </p>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>

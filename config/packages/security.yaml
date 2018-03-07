@@ -20,28 +20,25 @@ security:
     encoders:
         App\Entity\Usuario:
             algorithm: bcrypt
-
     providers:
         doctrine_provider:
             entity:
                 class: App\Entity\Usuario
                 property: login
-
     firewalls:
         dev:
             pattern:  ^/(_(profiler|wdt)|css|images|js)/
             security: false
-
-        portada:
-            pattern: ^/$
-            anonymous: ~
-
-        backend:
+        #portada:
+        #   pattern: ^/$
+        #   anonymous: ~
+        app:
             provider: doctrine_provider
-            pattern: ^/
+            #pattern: ^/
+            anonymous: ~
             form_login:
                 login_path: portada
-                check_path: /login_check
+                check_path: portada
                 default_target_path: usuario_info
                 always_use_default_target_path: true
             logout:

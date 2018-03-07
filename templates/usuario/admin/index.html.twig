@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('css/datatables/dataTables.bootstrap.css') }}" rel="stylesheet" media="screen">
+{% endblock %}
+{% block body %}
+    {% include 'usuario/user-nav.html.twig' %}
+    {% include 'usuario/admin-nav.html.twig' %}
+
+    <div class="row">
+        <div class="col-sm-12">
+            <h1>Usuarios: </h1>
+            <div class="table-responsive">
+                <table id="listado_usuarios" class="table table-bordered table-condensed table-striped table-hoveri">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Login</th>
+                        <th>Nombre</th>
+                        <th>Correo</th>
+                        <th>Kuota</th>
+                        <th>Consumo</th>
+                        <th>Creado</th>
+                        <th>Expira</th>
+                        <th>Rol</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for usuario in usuarios %}
+                        <tr>
+                            <td><a href="{{ path('admin_usuario', { 'login': usuario.login }) }}">{{ usuario.id }}</a></td>
+                            <td>{{ usuario.login }}</td>
+                            <td>{{ usuario.nombre }}</td>
+                            <td>{{ usuario.correo }}</td>
+                            <td>{{ usuario.kuota | cant_bit }} {{ usuario.kuota | unidad_bit }}</td>
+                            <td>{{ usuario.consumo | cant_bit }} {{ usuario.consumo | unidad_bit }}</td>
+                            <td>{% if usuario.creado %}{{ usuario.creado|date('Y-m-d') }}{% endif %}</td>
+                            <td>{% if usuario.expira %}{{ usuario.expira|date('Y-m-d') }}{% endif %}</td>
+                            <td>{{ usuario.rol }}</td>
+                            <td>
+                                <ul>
+                                    <li>
+                                        <a href="{{ path('usuario', { 'login': usuario.login }) }}">edit</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('reporte', {'login': usuario.login }) }}">reporte</a>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/datatables/datatables.min.js') }}"></script>
+    <script src="{{ asset('js/datatables/dataTables.bootstrap.min.js') }}"></script>
+    <script src="{{ asset('js/datatables/file-size.js') }}"></script>
+    {% if usuarios is not empty %}
+        <script type="text/javascript">
+            (jQuery)(document).ready(function () {
+                (jQuery)('#listado_usuarios').DataTable({
+                        columnDefs: [
+                            {type: 'file-size', targets: 4},
+                            {type: 'file-size', targets: 5}
+                        ]
+                    }
+                );
+            });
+        </script>
+    {% endif %}
+{% endblock %}
