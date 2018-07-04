@@ -29,7 +29,7 @@
                     <tbody>
                     {% for usuario in usuarios %}
                         <tr>
-                            <td><a href="{{ path('admin_usuario', { 'login': usuario.login }) }}">{{ usuario.id }}</a></td>
+                            <td><a href="{{ path('admin_usuario_index', { 'login': usuario.login }) }}">{{ usuario.id }}</a></td>
                             <td>{{ usuario.login }}</td>
                             <td>{{ usuario.nombre }}</td>
                             <td>{{ usuario.correo }}</td>
