@@ -1,0 +1,117 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <style type="text/css">
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html, code {
+            font: 15px/22px arial, sans-serif;
+        }
+
+        html {
+            background: none repeat scroll 0 0 #FDFDFD;
+            color: rgb(34, 34, 34);
+            padding: 15px;
+        }
+
+        body {
+            margin: 0 auto 0;
+            max-width: 490px;
+            min-height: 180px;
+            padding: 30px 0 15px;
+        }
+
+        body {
+            background: url({{ asset('images/error.png') }}) no-repeat scroll 100% 230px transparent;
+            padding-right: 205px;
+        }
+
+        p {
+            margin: 11px 0 22px;
+            overflow: hidden;
+        }
+
+        ins {
+            color: rgb(119, 119, 119);
+            text-decoration: none;
+        }
+
+        a img {
+            border: 0 none;
+        }
+
+        @media screen and (max-width: 772px) {
+            body {
+                background: none repeat scroll 0 0 transparent;
+                margin-top: 0;
+                max-width: none;
+                padding-right: 0;
+            }
+        }
+
+        .observaciones {
+            resize: vertical;
+            min-height: 60px;
+            max-height: 120px;
+            max-width: 480px;
+            min-width: 480px;
+        }
+    </style>
+{% endblock %}
+
+{% block header %}{% endblock %}
+{% block javascripts %}{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-sm-12">
+            <a href="{{ path('portada') }}" style="text-decoration: none; font-size: 16px; font-weight: bold;"><img
+                        src="{{ asset('images/logo2.png') }}"><br></a>
+            <h3>
+                <b>Prohibido</b>
+            </h3>
+            <p>
+                Las reglas de control de acceso impiden procesar su solicitud a la URL <br><br><code
+                        style="font-weight:bold;">{{ url }}</code>
+                <br>
+                <br>
+                Usuario: <code style="font-weight:bold;">{{ usuario }}</code>
+                <br>
+                IP: <code style="font-weight:bold;">{{ ip }}</code>
+                <br>
+                Clasificación: <code style="font-weight:bold;">{{ clasificacion }}</code>
+                <br>
+                <br>
+                <br>
+
+                Si usted considera que se trata de un error utilice el siguiente formulario o escriba al <a
+                        href="mailto:informatica@cce.cu">Grupo de Informática</a>.
+            </p>
+            {{ form_start(form_error_redirect) }}
+            <table cellpadding="0" cellspacing="0" summary="">
+                <tr>
+                    <td colspan="2">Observaciones</td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        {{ form_widget(form_error_redirect.observaciones, {'attr': {'class':'observaciones'}}) }}
+                        <br/></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type="submit" name="submit" value="Enviar"/></td>
+                </tr>
+            </table>
+            {{ form_widget(form_error_redirect.usuario, {value : usuario}) }}
+            {{ form_widget(form_error_redirect.ip, {value : ip}) }}
+            {{ form_widget(form_error_redirect.url, {value : url}) }}
+            {{ form_widget(form_error_redirect.clasificacion, {value : clasificacion}) }}
+
+            {{ form_end(form_error_redirect) }}
+        </div>
+    </div>
+{% endblock %}
