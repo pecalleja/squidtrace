@@ -11,3 +11,5 @@ squidtrace.sql
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
+
+access.log*
