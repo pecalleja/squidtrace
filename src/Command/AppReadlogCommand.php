@@ -165,7 +165,10 @@ class AppReadlogCommand extends Command
                 continue;
             }
 
-            $invalid_line = (preg_match('(TCP_DENIED|_HIT|555)',$log[3]) || (preg_match('(^cache_object)',$log[6])));
+            $invalid_line = (preg_match('(TCP_DENIED|_HIT|555)',$log[3]) ||
+                            (preg_match('(^cache_object)',$log[6])) ||
+                            (preg_match('(^-$|^HIER_NONE)',$log[7]))
+            );
 
             if($invalid_line == 1){
                 continue;
