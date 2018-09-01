@@ -76,7 +76,7 @@ class Usuario implements UserInterface, \Serializable, EquatableInterface
     /**
      * @var integer
      *
-     * @ORM\Column(name="consumo", type="integer")
+     * @ORM\Column(name="consumo", type="integer", options={"default" = 0})
      */
     protected $consumo;
 
@@ -109,7 +109,7 @@ class Usuario implements UserInterface, \Serializable, EquatableInterface
     protected $rol;
 
     /**
-     * @ORM\Column(name="is_active", type="boolean")
+     * @ORM\Column(name="is_active", type="boolean", options={"default" = 0})
      */
     private $isActive;
 
